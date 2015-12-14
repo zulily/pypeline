@@ -156,19 +156,19 @@
 <h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="create-a-new-gitlab-project-configure-the-webhook-create-a-jenkins-build-project">
 <h3>Create a new gitlab project, configure the webhook, create a jenkins build project<a class="headerlink" href="#create-a-new-gitlab-project-configure-the-webhook-create-a-jenkins-build-project" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline project create --project-name<span class="o">=</span>hello_world --scm-namespace<span class="o">=</span>infraops --description<span class="o">=</span><span class="s2">&quot;hello world pypeline project&quot;</span> --build-project-name<span class="o">=</span>hello_world
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline project create --project-name<span class="o">=</span>hello_world --scm-namespace<span class="o">=</span>infrastructure --description<span class="o">=</span><span class="s2">&quot;hello world pypeline project&quot;</span> --build-project-name<span class="o">=</span>hello_world
 </pre></div>
 </div>
 </div>
 <div class="section" id="update-an-existing-gitlab-project-to-setup-the-jenkins-webhook">
 <h3>Update an existing gitlab project to setup the jenkins webhook<a class="headerlink" href="#update-an-existing-gitlab-project-to-setup-the-jenkins-webhook" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab webhook --project-name<span class="o">=</span>hello_world --namespace<span class="o">=</span>infraops
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab webhook --project-name<span class="o">=</span>hello_world --namespace<span class="o">=</span>infrastructure
 </pre></div>
 </div>
 </div>
 <div class="section" id="create-a-jenkins-build-project-the-gitlab-project-already-exists">
 <h3>Create a jenkins build project, the gitlab project already exists<a class="headerlink" href="#create-a-jenkins-build-project-the-gitlab-project-already-exists" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline jenkins create --build-project-name<span class="o">=</span>hello_world --scm-namespace<span class="o">=</span>infraops
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline jenkins create --build-project-name<span class="o">=</span>hello_world --scm-namespace<span class="o">=</span>infrastructure
 </pre></div>
 </div>
 </div>
@@ -192,13 +192,13 @@
 </div>
 <div class="section" id="view-a-json-representation-of-all-branches-for-a-project">
 <h3>View a JSON representation of all branches for a project<a class="headerlink" href="#view-a-json-representation-of-all-branches-for-a-project" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab list_branches --namespace<span class="o">=</span>infraops --project-name<span class="o">=</span>skynet
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab list_branches --namespace<span class="o">=</span>infrastructure --project-name<span class="o">=</span>skynet
 </pre></div>
 </div>
 </div>
 <div class="section" id="view-a-json-representation-of-all-webhooks-for-a-project">
 <h3>View a JSON representation of all webhooks for a project<a class="headerlink" href="#view-a-json-representation-of-all-webhooks-for-a-project" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab list_webhooks --namespace<span class="o">=</span>infraops --project-name<span class="o">=</span>skynet
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab list_webhooks --namespace<span class="o">=</span>infrastructure --project-name<span class="o">=</span>skynet
 </pre></div>
 </div>
 </div>
