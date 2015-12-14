@@ -60,7 +60,7 @@ class JenkinsCI(CIBase):
         :param str namespace: the namespace in which the scm project resides
         :param str scm_user: the scm user to connect as, e.g. git
         :param str scm_host: the hostname of the scm server hosting the git repository
-        :param str scons_script: the name of the SCons script to use, e.g. zupy_packager
+        :param str scons_script: the name of the SCons script to use, e.g. default_builder
         """
         if self.server.job_exists(project_name):
             raise JenkinsCIDuplicateProjectError('A Jenkins project with name ' + \
