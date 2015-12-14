@@ -1,0 +1,8 @@
+# Backup script not included, for an example, here is one suggestion:
+# https://github.com/sue445/jenkins-backup-script/blob/master/jenkins-backup.sh
+#
+# Backup jenkins
+#30 1 * * *  root service jenkins stop && /usr/local/bin/jenkins_backup /var/lib/jenkins /backups/jenkins ; service jenkins start
+
+# Remove jenkins backups older than 5 days
+#30 0 * * * root find /backups/jenkins/ -mtime +5 -exec rm -rf {} \;

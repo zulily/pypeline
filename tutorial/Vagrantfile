@@ -1,0 +1,75 @@
+# vagrant box add ubuntu/trusty64
+
+# Vagrant.configure takes the api version as a parameter, currently 2
+Vagrant.configure("2") do |config|
+  config.ssh.forward_agent = true
+  config.vm.usable_port_range = 15250..15270
+
+$script = <<SCRIPT
+echo '172.16.0.140 jenkins.example.com jenkins' >> /etc/hosts
+echo '172.16.0.141 pydocs.example.com pydocs' >> /etc/hosts
+echo '172.16.0.142 pypi.example.com pypi' >> /etc/hosts
+SCRIPT
+
+  config.vm.define "pydocs.example.com" do |instance|
+    instance.vm.box = "ubuntu/trusty64"
+    instance.vm.network "private_network", ip: "172.16.0.141", virtualbox__intnet: "b8bc5a156c"
+    instance.vm.hostname = "pydocs.example.com"
+    instance.vm.synced_folder "srv/", "/srv"
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+        v.cpus = 2
+    end
+    instance.vm.provision "shell", inline: $script
+    instance.vm.provision "shell", inline: "echo pydocs.example.com > /etc/hostname; hostname pydocs.example.com; mkdir -p /glusterStor"
+    instance.vm.provision :salt do |salt|
+
+      salt.minion_config = "vagrant_minion_config"
+      salt.run_highstate = true
+      #salt.install_command = "-P git v2015.8.3"
+      salt.verbose = true
+    end
+  end
+
+  config.vm.define "pypi.example.com" do |instance|
+    instance.vm.box = "ubuntu/trusty64"
+    instance.vm.network "private_network", ip: "172.16.0.142", virtualbox__intnet: "b8bc5a156c"
+    instance.vm.hostname = "pypi.example.com"
+    instance.vm.synced_folder "srv/", "/srv"
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+        v.cpus = 2
+    end
+    instance.vm.provision "shell", inline: $script
+    instance.vm.provision "shell", inline: "echo pypi.example.com > /etc/hostname; hostname pypi.example.com; mkdir -p /glusterStor"
+    instance.vm.provision :salt do |salt|
+
+      salt.minion_config = "vagrant_minion_config"
+      salt.run_highstate = true
+      #salt.install_command = "-P git v2015.8.3"
+      salt.verbose = true
+    end
+  end
+
+  config.vm.define "jenkins.example.com" do |instance|
+    instance.vm.box = "ubuntu/trusty64"
+    instance.vm.network "private_network", ip: "172.16.0.140", virtualbox__intnet: "b8bc5a156c"
+    instance.vm.hostname = "jenkins.example.com"
+    instance.vm.synced_folder "srv/", "/srv"
+    instance.vm.network "forwarded_port", guest: 443, host: 5443
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+        v.cpus = 2
+    end
+    instance.vm.provision "shell", inline: $script
+    instance.vm.provision "shell", inline: "echo jenkins.example.com > /etc/hostname; hostname jenkins.example.com; mkdir -p /glusterStor"
+    instance.vm.provision :salt do |salt|
+
+      salt.minion_config = "vagrant_minion_config"
+      salt.run_highstate = true
+      #salt.install_command = "-P git v2015.8.3"
+      salt.verbose = true
+    end
+  end
+
+end

@@ -1,0 +1,116 @@
+# Copyright (C) 2015 zulily, llc
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""
+A simple SConstruct file to handle python package builds, including:
+
+* Running unit tests
+* Installing the package into a virtual environment
+* Building sphinx documentation, if a docs/Makefile exists
+* Running a setup.py clean
+* Creating a pip-installable tarball
+* Installation of documentation to a target directory
+* Installation of the pip-installable tarball to a target directory
+
+Any failure of a step in this SConstruct file will return a non-zero
+error code to the caller.
+
+Requirements:
+
+* <package>.__version__ must be available, with a format of <major>.<minor>.<patch>, with nothing
+  installed, python setup.py --version must return the version
+* Packages must have a setup.py
+* sphinx must be installed in the virtual environment, if documentation is to be generated
+
+ToDo:
+
+* Consider running pychecker, pylint and pep8, although, these may be overly picky and projects
+  may have their own coding standards defined that may diverge slightly from pep8.  An alternative
+  might be to trigger running these tools from a git commit hook in the local copy of the repository
+
+"""
+import os
+import subprocess
+import sys
+
+# Fallback defaults
+_DOCS_DIR = '/mnt/pydocs'
+_PACKAGES_DIR = '/mnt/pypi'
+
+# Collect command-line parameters
+WORKSPACE = ARGUMENTS.get("workspace")
+PACKAGE_NAME = ARGUMENTS.get("package_name")
+OBJECT_KIND = ARGUMENTS.get("object_kind")
+REF = ARGUMENTS.get("ref")
+DOCS_DIR = ARGUMENTS.get("docs_dir", _DOCS_DIR)
+PACKAGES_DIR = ARGUMENTS.get("packages_dir", _PACKAGES_DIR)
+
+
+# symlink package_name to git/ if link does not already exist
+# Jenkins clones / pulls to a git/ subdirectory.  To build pip installable
+# tarballs, we need to symlink to this folder and name the link <package_name>
+if not os.path.islink(PACKAGE_NAME):
+    os.symlink('git', PACKAGE_NAME)
+
+def setup_version():
+    """Determine package version in a reliable way.
+       There does not seem to be a straightforward way
+       of capturing output from and SCons Command...
+    """
+    os.chdir('git')
+    command = 'python setup.py --version'.split()
+
+    child = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout_value, stderr_value = child.communicate()
+
+    os.chdir(WORKSPACE)
+    return stdout_value
+
+package_version = setup_version().rstrip('\n')
+
+env = Environment(TARFLAGS='-c -z --dereference --exclude=.git* --exclude=_build --exclude=*.egg* --exclude=*.pyc --exclude={0}/dist --exclude={0}/build'.format(PACKAGE_NAME), TARSUFFIX='.tar.gz')
+
+# python setup.py test
+setup_test = Command('setup_test', 'git/setup.py', '{0} setup.py test'.format(sys.executable), chdir='git')
+
+# pip install - pip will attempt install dependencies present in the setup.py
+pip_install = Command('pip_install', 'git/setup.py', 'bash -c "source {0} && pip install . --upgrade"'.format(os.path.join(WORKSPACE, 'venv/bin/activate')), chdir='git')
+Requires(pip_install, setup_test)
+
+# If docs/Makefile exists, build and deploy sphinx documentation
+if os.path.isfile('{0}'.format(os.path.join(WORKSPACE, 'git/docs/Makefile'))):
+    Command('make_clean', 'git/docs/Makefile', 'bash -c "source {0} && make clean"'.format(os.path.join(WORKSPACE, 'venv/bin/activate')), chdir='git/docs')
+    make_html = Command('make_html', 'git/docs/Makefile', 'bash -c "source {0} && make html"'.format(os.path.join(WORKSPACE, 'venv/bin/activate')), chdir='git/docs')
+    Requires(make_html, pip_install)
+
+    # Deploy sphinx documentation
+    docs_deploy = Command('docs_deploy', 'git/docs/Makefile', 'bash -c "mkdir -p {0} && rsync -Ha --delete {1} {0}"'.format(os.path.join(DOCS_DIR, PACKAGE_NAME, package_version), '_build/html/'), chdir='git/docs')
+    Requires(docs_deploy, make_html)
+
+    symlink_latest = Command('symlink_latest', DOCS_DIR, 'bash -c "ln -sf {1} {0}"'.format(os.path.join(DOCS_DIR, PACKAGE_NAME, 'latest'), os.path.join(DOCS_DIR, PACKAGE_NAME, package_version)))
+    Requires(symlink_latest, docs_deploy)
+
+# python setup.py clean
+setup_clean = Command('setup_clean', 'git/setup.py', '{0} setup.py clean'.format(sys.executable), chdir='git')
+Requires(setup_clean, pip_install)
+
+# Create the pip-installable tarball if this push is tagged
+if OBJECT_KIND == 'tag_push':
+    tar = env.Tar('{0}-{1}'.format(PACKAGE_NAME, package_version), PACKAGE_NAME)
+    Requires(tar, setup_clean)
+
+    # Didn't have any luck with Move nor a custom command action, but this works...
+    tar_install = Command('tar_install', '{0}-{1}.tar.gz'.format(PACKAGE_NAME, package_version), 'mv --force {0} {1}'.format('{0}-{1}.tar.gz'.format(PACKAGE_NAME, package_version), PACKAGES_DIR))
+    Requires(tar_install, tar)
+

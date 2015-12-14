@@ -1,0 +1,24 @@
+server {
+    listen 80 default_server;
+    return 301 https://$host/$request_uri;
+    ssl off;
+}
+server {
+    listen 443 ssl;
+    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
+    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+    ssl on;
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host:$server_port;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_redirect https://localhost/ https://localhost:5443/; # Remove this outside of the tutorial test environment
+    }
+    root /var/www;
+    index index.html;
+    access_log /var/log/nginx/jenkins_access.log;
+    error_log /var/log/nginx/jenkins_error.log;
+}
+
