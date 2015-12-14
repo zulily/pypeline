@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; pypeline 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pypeline 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Tutorial - Building a CI/CD Pipeline" href="tutorial.html"/>
+        <link rel="prev" title="Welcome to pypeline’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pypeline
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pip-aka-the-easy-way">pip (aka the easy way)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manual">Manual</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial - Building a CI/CD Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pypeline.html">pypeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pypeline</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Getting Started</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/getting_started.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pip-aka-the-easy-way">
+<h3>pip (aka the easy way)<a class="headerlink" href="#pip-aka-the-easy-way" title="Permalink to this headline">¶</a></h3>
+<p>Assuming ~/pip/pip.conf points to a pypi repository containing
+pypeline...</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install pypeline
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is typically performed within a python virtual environment.</p>
+</div>
+</div>
+<div class="section" id="manual">
+<h3>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h3>
+<p>Activate a virtual environment and perform the installation from the top-level
+pypeline package container directory.</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install .
+</pre></div>
+</div>
+<p>And for <em>optional</em> document generation with sphinx, install the following python packages as well:</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install sphinx
+pip install pygments
+pip install sphinx_rtd_theme
+pip install sphinx-argparse
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p><strong>Create a hello_world project</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#! /usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">pypeline.scm.gl</span> <span class="kn">import</span> <span class="n">GitLab</span>
+<span class="kn">from</span> <span class="nn">pypeline.ci.jenkins_ci</span> <span class="kn">import</span> <span class="n">JenkinsCI</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create a hello_world project (GitLab and Jenkins),</span>
+<span class="sd">    in the infrstructure namespace.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gitlab</span> <span class="o">=</span> <span class="n">GitLab</span><span class="p">(</span><span class="n">gitlab_host</span><span class="o">=</span><span class="s">&#39;gitlab.example.com&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">&#39;bhodges&#39;</span><span class="p">,</span>
+                    <span class="n">password</span><span class="o">=</span><span class="s">&#39;my_secret_password&#39;</span><span class="p">)</span> <span class="c"># Token auth also possible</span>
+    <span class="n">jenkins</span> <span class="o">=</span> <span class="n">JenkinsCI</span><span class="p">(</span><span class="n">jenkins_host</span><span class="o">=</span><span class="s">&#39;jenkins.example.com&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">&#39;bhodges&#39;</span><span class="p">,</span>
+                        <span class="n">password</span><span class="o">=</span><span class="s">&#39;my_secret_password&#39;</span><span class="p">)</span> <span class="c"># Token auth also possible</span>
+    <span class="n">jenkins</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s">&#39;hello_world&#39;</span><span class="p">,</span> <span class="n">scm_project_name</span><span class="o">=</span><span class="s">&#39;hello_world&#39;</span><span class="p">,</span>
+                           <span class="n">namespace</span><span class="o">=</span><span class="s">&#39;infrastructure&#39;</span><span class="p">,</span> <span class="n">scm_user</span><span class="o">=</span><span class="s">&#39;git&#39;</span><span class="p">,</span>
+                           <span class="n">scm_host</span><span class="o">=</span><span class="s">&#39;gitlab.example.com&#39;</span><span class="p">,</span> <span class="n">scons_script</span><span class="o">=</span><span class="s">&#39;default_packager&#39;</span><span class="p">,</span>
+                           <span class="n">email</span><span class="o">=</span><span class="s">&#39;pypeline@example.com&#39;</span><span class="p">)</span>
+    <span class="n">gitlab</span><span class="o">.</span><span class="n">create_project</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s">&#39;hello_world&#39;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s">&#39;infrastructure&#39;</span><span class="p">,</span>
+                          <span class="n">url</span><span class="o">=</span><span class="s">&#39;https://jenkins.example.com/gitlab/build_now&#39;</span><span class="p">,</span>
+                          <span class="n">description</span><span class="o">=</span><span class="s">&#39;My hello_world project...&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+</div>
+<p><em>For additional usage examples, reviewing the</em> <a class="reference internal" href="pypeline.html"><em>pypeline</em></a> <em>cli</em> source is recommended</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Tutorial - Building a CI/CD Pipeline" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to pypeline’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, zulily, llc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,1243 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>pypeline &mdash; pypeline 0.1.0 documentation</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+
+
+
+
+    <link rel="top" title="pypeline 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="License" href="license.html"/>
+        <link rel="prev" title="API Reference" href="api_reference.html"/>
+
+
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+
+
+
+            <a href="index.html" class="icon icon-home"> pypeline
+
+
+
+          </a>
+
+
+
+
+              <div class="version">
+                0.1.0
+              </div>
+
+
+
+
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+
+
+
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial - Building a CI/CD Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">pypeline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-usage">Example Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-new-gitlab-project-configure-the-webhook-create-a-jenkins-build-project">Create a new gitlab project, configure the webhook, create a jenkins build project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-an-existing-gitlab-project-to-setup-the-jenkins-webhook">Update an existing gitlab project to setup the jenkins webhook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-jenkins-build-project-the-gitlab-project-already-exists">Create a jenkins build project, the gitlab project already exists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#list-all-jenkins-build-projects">List all jenkins build projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#view-a-json-representation-of-a-jenkins-project-s-metadata">View a JSON representation of a Jenkins project&#8217;s metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#list-all-gitlab-projects-for-which-the-authenticated-user-has-access">List all GitLab projects for which the authenticated user has access</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#view-a-json-representation-of-all-branches-for-a-project">View a JSON representation of all branches for a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#view-a-json-representation-of-all-webhooks-for-a-project">View a JSON representation of all webhooks for a project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-reference">Command-line Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pypeline</a>
+      </nav>
+
+
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+
+    <li>pypeline</li>
+      <li class="wy-breadcrumbs-aside">
+
+
+            <a href="_sources/pypeline.txt" rel="nofollow"> View page source</a>
+
+
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <div class="section" id="pypeline">
+<h1>pypeline<a class="headerlink" href="#pypeline" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><strong>pypeline</strong> provides a cli to automate management of SCM and CI components that compose a pipeline.</p>
+</div>
+<div class="section" id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-a-new-gitlab-project-configure-the-webhook-create-a-jenkins-build-project">
+<h3>Create a new gitlab project, configure the webhook, create a jenkins build project<a class="headerlink" href="#create-a-new-gitlab-project-configure-the-webhook-create-a-jenkins-build-project" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline project create --project-name<span class="o">=</span>hello_world --scm-namespace<span class="o">=</span>infraops --description<span class="o">=</span><span class="s2">&quot;hello world pypeline project&quot;</span> --build-project-name<span class="o">=</span>hello_world
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-an-existing-gitlab-project-to-setup-the-jenkins-webhook">
+<h3>Update an existing gitlab project to setup the jenkins webhook<a class="headerlink" href="#update-an-existing-gitlab-project-to-setup-the-jenkins-webhook" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab webhook --project-name<span class="o">=</span>hello_world --namespace<span class="o">=</span>infraops
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-jenkins-build-project-the-gitlab-project-already-exists">
+<h3>Create a jenkins build project, the gitlab project already exists<a class="headerlink" href="#create-a-jenkins-build-project-the-gitlab-project-already-exists" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline jenkins create --build-project-name<span class="o">=</span>hello_world --scm-namespace<span class="o">=</span>infraops
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-all-jenkins-build-projects">
+<h3>List all jenkins build projects<a class="headerlink" href="#list-all-jenkins-build-projects" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline jenkins list_projects
+</pre></div>
+</div>
+</div>
+<div class="section" id="view-a-json-representation-of-a-jenkins-project-s-metadata">
+<h3>View a JSON representation of a Jenkins project&#8217;s metadata<a class="headerlink" href="#view-a-json-representation-of-a-jenkins-project-s-metadata" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline jenkins view --build-project padl
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-all-gitlab-projects-for-which-the-authenticated-user-has-access">
+<h3>List all GitLab projects for which the authenticated user has access<a class="headerlink" href="#list-all-gitlab-projects-for-which-the-authenticated-user-has-access" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab list_projects --namespace<span class="o">=</span>all
+</pre></div>
+</div>
+</div>
+<div class="section" id="view-a-json-representation-of-all-branches-for-a-project">
+<h3>View a JSON representation of all branches for a project<a class="headerlink" href="#view-a-json-representation-of-all-branches-for-a-project" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab list_branches --namespace<span class="o">=</span>infraops --project-name<span class="o">=</span>skynet
+</pre></div>
+</div>
+</div>
+<div class="section" id="view-a-json-representation-of-all-webhooks-for-a-project">
+<h3>View a JSON representation of all webhooks for a project<a class="headerlink" href="#view-a-json-representation-of-all-webhooks-for-a-project" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pypeline gitlab list_webhooks --namespace<span class="o">=</span>infraops --project-name<span class="o">=</span>skynet
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="command-line-reference">
+<h2>Command-line Reference<a class="headerlink" href="#command-line-reference" title="Permalink to this headline">¶</a></h2>
+<p>A script for configuring CI pipeline components</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline [-h] [-V] {common,gitlab,jenkins,project} ...
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-V</span>, <span class="option">--version</span></kbd></td>
+<td>Print the version number and exit</td></tr>
+</tbody>
+</table>
+</dd>
+<dt>Sub-commands:</dt>
+<dd><dl class="first last docutils">
+<dt><strong>common</strong></dt>
+<dd><p class="first">Undocumented</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline common [--user USER] [--ssl-no-verify] [--verbose] [--debug]
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>gitlab</strong></dt>
+<dd><p class="first">Configure gitlab projects</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab [-h]
+                       {gitlab_common,create,list_projects,webhook,list_branches,list_webhooks,view,list_tags}
+                       ...
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Sub-commands:</dt>
+<dd><dl class="first last docutils">
+<dt><strong>gitlab_common</strong></dt>
+<dd><p class="first">Undocumented</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab gitlab_common [--user USER] [--ssl-no-verify]
+                                     [--verbose] [--debug] [--gl-token TOKEN]
+                                     [--gitlab-host GITLAB_HOST] --namespace
+                                     NAMESPACE
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--gitlab-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab host, may be overriden with PYPELINE_GITLAB_HOST and defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab namespace if applicable.  For some subcommands, &#8220;all&#8221; may be specified, such as for list_projects</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>create</strong></dt>
+<dd><p class="first">Create a gitlab project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab create [-h] [--user USER] [--ssl-no-verify] [--verbose]
+                              [--debug] [--gl-token TOKEN]
+                              [--gitlab-host GITLAB_HOST] --namespace
+                              NAMESPACE --project-name PROJECT_NAME
+                              --description DESCRIPTION [--url URL]
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--gitlab-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab host, may be overriden with PYPELINE_GITLAB_HOST and defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab namespace if applicable.  For some subcommands, &#8220;all&#8221; may be specified, such as for list_projects</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--project-name</span>, <span class="option">-P</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project name.  Do not include the namespace in the project name</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--description=</span>, <span class="option">-D=</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project description.  </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--url=https://jenkins.example.com/gitlab/build_now</span>, <span class="option">-u=https://jenkins.example.com/gitlab/build_now</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The webhook url.  Defaults to: https://jenkins.example.com/gitlab/build_now</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>list_projects</strong></dt>
+<dd><p class="first">List GitLab projects</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab list_projects [-h] [--user USER] [--ssl-no-verify]
+                                     [--verbose] [--debug] [--gl-token TOKEN]
+                                     [--gitlab-host GITLAB_HOST] --namespace
+                                     NAMESPACE
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--gitlab-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab host, may be overriden with PYPELINE_GITLAB_HOST and defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab namespace if applicable.  For some subcommands, &#8220;all&#8221; may be specified, such as for list_projects</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>webhook</strong></dt>
+<dd><p class="first">Update a GitLab project to set the webhook</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab webhook [-h] [--user USER] [--ssl-no-verify]
+                               [--verbose] [--debug] [--gl-token TOKEN]
+                               [--gitlab-host GITLAB_HOST] --namespace
+                               NAMESPACE --project-name PROJECT_NAME
+                               [--url URL]
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--gitlab-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab host, may be overriden with PYPELINE_GITLAB_HOST and defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab namespace if applicable.  For some subcommands, &#8220;all&#8221; may be specified, such as for list_projects</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--project-name</span>, <span class="option">-P</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project name.  Do not include the namespace in the project name</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--url=https://jenkins.example.com/gitlab/build_now</span>, <span class="option">-u=https://jenkins.example.com/gitlab/build_now</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The webhook url.  Defaults to: https://jenkins.example.com/gitlab/build_now</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>list_branches</strong></dt>
+<dd><p class="first">List branches for a GitLab project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab list_branches [-h] [--user USER] [--ssl-no-verify]
+                                     [--verbose] [--debug] [--gl-token TOKEN]
+                                     [--gitlab-host GITLAB_HOST] --namespace
+                                     NAMESPACE --project-name PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--gitlab-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab host, may be overriden with PYPELINE_GITLAB_HOST and defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab namespace if applicable.  For some subcommands, &#8220;all&#8221; may be specified, such as for list_projects</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--project-name</span>, <span class="option">-P</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project name.  Do not include the namespace in the project name</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>list_webhooks</strong></dt>
+<dd><p class="first">List webhooks for a GitLab project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab list_webhooks [-h] [--user USER] [--ssl-no-verify]
+                                     [--verbose] [--debug] [--gl-token TOKEN]
+                                     [--gitlab-host GITLAB_HOST] --namespace
+                                     NAMESPACE --project-name PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--gitlab-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab host, may be overriden with PYPELINE_GITLAB_HOST and defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab namespace if applicable.  For some subcommands, &#8220;all&#8221; may be specified, such as for list_projects</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--project-name</span>, <span class="option">-P</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project name.  Do not include the namespace in the project name</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>view</strong></dt>
+<dd><p class="first">View details for a GitLab project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab view [-h] [--user USER] [--ssl-no-verify] [--verbose]
+                            [--debug] [--gl-token TOKEN]
+                            [--gitlab-host GITLAB_HOST] --namespace NAMESPACE
+                            --project-name PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--gitlab-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab host, may be overriden with PYPELINE_GITLAB_HOST and defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab namespace if applicable.  For some subcommands, &#8220;all&#8221; may be specified, such as for list_projects</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--project-name</span>, <span class="option">-P</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project name.  Do not include the namespace in the project name</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>list_tags</strong></dt>
+<dd><p class="first">List tags for a GitLab project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline gitlab list_tags [-h] [--user USER] [--ssl-no-verify]
+                                 [--verbose] [--debug] [--gl-token TOKEN]
+                                 [--gitlab-host GITLAB_HOST] --namespace
+                                 NAMESPACE --project-name PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--gitlab-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab host, may be overriden with PYPELINE_GITLAB_HOST and defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab namespace if applicable.  For some subcommands, &#8220;all&#8221; may be specified, such as for list_projects</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--project-name</span>, <span class="option">-P</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project name.  Do not include the namespace in the project name</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt><strong>jenkins</strong></dt>
+<dd><p class="first">Configure Jenkins projects</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins [-h]
+                        {jenkins_common,jenkins_common_project,list_projects,create,enable,disable,delete,view}
+                        ...
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Sub-commands:</dt>
+<dd><dl class="first last docutils">
+<dt><strong>jenkins_common</strong></dt>
+<dd><p class="first">Undocumented</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins jenkins_common [--user USER] [--ssl-no-verify]
+                                       [--verbose] [--debug]
+                                       [--ci-token CI_TOKEN]
+                                       [--jenkins-host CI_HOST]
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>jenkins_common_project</strong></dt>
+<dd><p class="first">Undocumented</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins jenkins_common_project [--user USER] [--ssl-no-verify]
+                                               [--verbose] [--debug]
+                                               [--ci-token CI_TOKEN]
+                                               [--jenkins-host CI_HOST]
+                                               --build-project-name
+                                               BUILD_PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--build-project-name</span>, <span class="option">-B</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins project name.  </td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>list_projects</strong></dt>
+<dd><p class="first">List Jenkins projects</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins list_projects [-h] [--user USER] [--ssl-no-verify]
+                                      [--verbose] [--debug]
+                                      [--ci-token CI_TOKEN]
+                                      [--jenkins-host CI_HOST]
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>create</strong></dt>
+<dd><p class="first">Create a jenkins build project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins create [-h] [--user USER] [--ssl-no-verify]
+                               [--verbose] [--debug] [--ci-token CI_TOKEN]
+                               [--jenkins-host CI_HOST] --build-project-name
+                               BUILD_PROJECT_NAME
+                               [--scm-project-name SCM_PROJECT_NAME]
+                               --scm-namespace NAMESPACE [--scm-host SCM_HOST]
+                               [--scm-user SCM_USER]
+                               [--scons-script SCONS_SCRIPT]
+                               [--email EMAIL_ADDRESS]
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--build-project-name</span>, <span class="option">-B</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins project name.  </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scm-project-name</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCM project name.  If unspecified, defaults to whatever is specified with &#8211;build-project-name</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scm-namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCM namespace.  </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scm-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCM host, defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scm-user=git</span>, <span class="option">-U=git</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCM user, defaults to: git</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scons-script=default_builder</span>, <span class="option">-S=default_builder</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCONS script, defaults to: default_builder</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--email=username&#64;example.com</span>, <span class="option">-e=username&#64;example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The notification e-mail address, defaults to: current_user&#64;localhost.  Overridable with PYPELINE_EMAIL</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>enable</strong></dt>
+<dd><p class="first">Enable a jenkins build project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins enable [-h] [--user USER] [--ssl-no-verify]
+                               [--verbose] [--debug] [--ci-token CI_TOKEN]
+                               [--jenkins-host CI_HOST] --build-project-name
+                               BUILD_PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--build-project-name</span>, <span class="option">-B</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins project name.  </td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>disable</strong></dt>
+<dd><p class="first">Disable a jenkins build project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins disable [-h] [--user USER] [--ssl-no-verify]
+                                [--verbose] [--debug] [--ci-token CI_TOKEN]
+                                [--jenkins-host CI_HOST] --build-project-name
+                                BUILD_PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--build-project-name</span>, <span class="option">-B</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins project name.  </td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>delete</strong></dt>
+<dd><p class="first">Delete a jenkins build project</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins delete [-h] [--user USER] [--ssl-no-verify]
+                               [--verbose] [--debug] [--ci-token CI_TOKEN]
+                               [--jenkins-host CI_HOST] --build-project-name
+                               BUILD_PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--build-project-name</span>, <span class="option">-B</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins project name.  </td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+<dt><strong>view</strong></dt>
+<dd><p class="first">View jenkins build project details (json)</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline jenkins view [-h] [--user USER] [--ssl-no-verify] [--verbose]
+                             [--debug] [--ci-token CI_TOKEN]
+                             [--jenkins-host CI_HOST] --build-project-name
+                             BUILD_PROJECT_NAME
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--build-project-name</span>, <span class="option">-B</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins project name.  </td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt><strong>project</strong></dt>
+<dd><p class="first">Configure various CI pipeline component projects</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline project [-h] {create} ...
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Sub-commands:</dt>
+<dd><dl class="first last docutils">
+<dt><strong>create</strong></dt>
+<dd><p class="first">Create CI and SCM component projects</p>
+<div class="highlight-python"><div class="highlight"><pre>usage: pypeline project create [-h] [--user USER] [--ssl-no-verify]
+                               [--verbose] [--debug] [--ci-token CI_TOKEN]
+                               [--jenkins-host CI_HOST] --build-project-name
+                               BUILD_PROJECT_NAME
+                               [--scm-project-name SCM_PROJECT_NAME]
+                               --scm-namespace NAMESPACE [--scm-host SCM_HOST]
+                               [--scm-user SCM_USER]
+                               [--scons-script SCONS_SCRIPT]
+                               [--email EMAIL_ADDRESS] [--gl-token TOKEN]
+                               --project-name PROJECT_NAME --description
+                               DESCRIPTION [--url URL]
+</pre></div>
+</div>
+<dl class="last docutils">
+<dt>Options:</dt>
+<dd><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">--user=username</span></kbd></td>
+<td>The AD user to connect as, to various services, do not include the domain portion. Defaults to current user</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--ssl-no-verify=True</span>, <span class="option">-s=True</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Don&#8217;t verify the authenticity of the server&#8217;s certificate, defaults to True and may be overridden with PYPELINE_SSL_NO_VERIFY</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--verbose=False</span>, <span class="option">-v=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Turn on verbose output</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--debug=False</span>, <span class="option">-d=False</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>Print out debugging information, very chatty</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--ci-token</span>, <span class="option">-T</span></kbd></td>
+<td>The CI API token to use. If unspecified, user/password credentials will be used. May not be supported by all CI frameworks</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--jenkins-host=jenkins.example.com</span>, <span class="option">-J=jenkins.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins CI host, defaults to: jenkins.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--build-project-name</span>, <span class="option">-B</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The Jenkins project name.  </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scm-project-name</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCM project name.  If unspecified, defaults to whatever is specified with &#8211;build-project-name</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scm-namespace</span>, <span class="option">-N</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCM namespace.  </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scm-host=gitlab.example.com</span>, <span class="option">-H=gitlab.example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCM host, defaults to: gitlab.example.com</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scm-user=git</span>, <span class="option">-U=git</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCM user, defaults to: git</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--scons-script=default_builder</span>, <span class="option">-S=default_builder</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The SCONS script, defaults to: default_builder</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--email=username&#64;example.com</span>, <span class="option">-e=username&#64;example.com</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The notification e-mail address, defaults to: current_user&#64;localhost.  Overridable with PYPELINE_EMAIL</td></tr>
+<tr><td class="option-group">
+<kbd><span class="option">--gl-token</span>, <span class="option">-t</span></kbd></td>
+<td>The GitLab API token to use.  If unspecified, user/password credentials will be used </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--project-name</span>, <span class="option">-P</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project name.  Do not include the namespace in the project name</td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--description=</span>, <span class="option">-D=</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The GitLab project description.  </td></tr>
+<tr><td class="option-group" colspan="2">
+<kbd><span class="option">--url=https://jenkins.example.com/gitlab/build_now</span>, <span class="option">-u=https://jenkins.example.com/gitlab/build_now</span></kbd></td>
+</tr>
+<tr><td>&nbsp;</td><td>The webhook url.  Defaults to: https://jenkins.example.com/gitlab/build_now</td></tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+
+
+        <a href="api_reference.html" class="btn btn-neutral" title="API Reference" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+
+    </div>
+
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, zulily, llc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+
+
+
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+
+
+
+
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+
+
+</body>
+</html>

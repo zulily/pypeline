@@ -1,0 +1,535 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial - Building a CI/CD Pipeline &mdash; pypeline 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pypeline 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="API Reference" href="api_reference.html"/>
+        <link rel="prev" title="Getting Started" href="getting_started.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pypeline
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Tutorial - Building a CI/CD Pipeline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#assumptions">Assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bringing-up-the-pipeline">Bringing Up the Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-docker-image-using-buoyant">Create a Docker image using buoyant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bring-up-three-docker-containers">Bring up three Docker containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-to-running-instances">Connecting to running instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bring-up-the-glusterfs-slaves-first">Bring up the glusterfs slaves first</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-jenkins-nginx-and-glusterfs-on-the-jenkins-instance">Install Jenkins, nginx and glusterfs on the jenkins instance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-the-gitlab-hook-plugin">Install the GitLab Hook Plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-jenkins-authentication">Configure Jenkins Authentication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manage-jenkins-credentials">Manage Jenkins Credentials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-gitlab-and-jenkins-build-projects">Create a GitLab and Jenkins Build Projects!</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jenkins-build-project-overview">Jenkins Build Project Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-s-next">What&#8217;s Next?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pypeline.html">pypeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pypeline</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Tutorial - Building a CI/CD Pipeline</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tutorial.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial-building-a-ci-cd-pipeline">
+<h1>Tutorial - Building a CI/CD Pipeline<a class="headerlink" href="#tutorial-building-a-ci-cd-pipeline" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial walks through the setup of a python CI/CD pipeline, with the following key
+components:</p>
+<ul class="simple">
+<li>Jenkins</li>
+<li>GitLab</li>
+</ul>
+<p>Once configured, <code class="docutils literal"><span class="pre">pypeline</span></code> may be used to automate GitLab project and Jenkins build project
+creation.  While <code class="docutils literal"><span class="pre">pypeline</span></code> only works with GitLab and Jenkins at this time, is written in a
+way that it is easily pluggable, however, some refactoring of the argument parsing will be
+necessary as additional plugins are incorporated.</p>
+</div>
+<div class="section" id="goals">
+<h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
+<p>By stepping through this tutorial, we will have a pipeline that is capable of the following:</p>
+<ul class="simple">
+<li>Pushes to master and tagged pushes will build sphinx documentation and run integration tests</li>
+<li>Tagged pushes will build and deploy documentation and release artifacts (pip-installable)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">A triggered build can do anything and the default capabilities may be extended</p>
+</div>
+</div>
+<div class="section" id="assumptions">
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>GitLab is already up-and-running, its configuration is outside the scope of this tutorial</li>
+<li>GitLab and Jenkins user accounts have a same-named direct mapping</li>
+<li>A debian-based distribution is being used, although the setup should work with other distros
+with slight modifications</li>
+<li>The host running test instances must has access to the running GitLab ReST API</li>
+</ul>
+</div>
+<div class="section" id="pre-requisites">
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>A test environment, built using <a class="reference external" href="https://github.com/zulily/buoyant">buoyant</a> (Docker-based), Vagrant or similar.
+The focus will be on using buoyant in this tutorial.  It is worth noting however that geo-replication will
+not function in the test environment, glusterfs bricks and docker volumes don&#8217;t seem to mix.  A slower environment
+to work with (but fully functional!) is to use vagrant.  A simple &#8216;vagrant up&#8217; in the tutorial subdirectory will
+bring up three salted minions.</li>
+</ul>
+</div>
+<div class="section" id="bringing-up-the-pipeline">
+<h2>Bringing Up the Pipeline<a class="headerlink" href="#bringing-up-the-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this section will be to bring up three instances:</p>
+<ol class="arabic simple">
+<li>jenkins - the Jenkins server and source glusterfs volumes reside here</li>
+<li>pydocs - documentation that is built gets geo-replicated here</li>
+<li>pypi - pip-installable tarballs are geo-replicated (and served from) here</li>
+</ol>
+<div class="section" id="create-a-docker-image-using-buoyant">
+<h3>Create a Docker image using buoyant<a class="headerlink" href="#create-a-docker-image-using-buoyant" title="Permalink to this headline">¶</a></h3>
+<p>Build a buoyant base image, using the buoyant Dockerfile.  The result will be an image
+from which thick containers may be built for our test environment.  Please see the buoyant
+README.md for details on building the image, but once cloned, running a command
+like so is sufficient:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> ~/git/
+git clone git@github.com:zulily/buoyant.git
+<span class="nb">cd </span>buoyant/
+docker build -t pypeline:v15.10_2015.8.1 .
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The initial docker image build generally takes upwards of 10 minutes, spinning up containers
+is nearly instantaneous afterwards.</p>
+</div>
+</div>
+<div class="section" id="bring-up-three-docker-containers">
+<h3>Bring up three Docker containers<a class="headerlink" href="#bring-up-three-docker-containers" title="Permalink to this headline">¶</a></h3>
+<p>cd back to the top-level pypeline repository directory to complete these steps.</p>
+<div class="highlight-bash"><div class="highlight"><pre>docker run -d --name jenkins -h jenkins.example.com  <span class="se">\</span>
+--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro <span class="se">\</span>
+-p 127.0.0.1:5443:443 <span class="se">\</span>
+-v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tutorial/srv:/srv <span class="se">\</span>
+-v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tutorial/glusterStor/jenkins:/glusterStor <span class="se">\</span>
+pypeline:v15.10_2015.8.1 /sbin/init
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre>docker run -d --name pydocs -h pydocs.example.com  <span class="se">\</span>
+--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro <span class="se">\</span>
+-p 127.0.0.1:6080:80 <span class="se">\</span>
+-v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tutorial/srv:/srv <span class="se">\</span>
+-v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tutorial/glusterStor/pydocs:/glusterStor <span class="se">\</span>
+pypeline:v15.10_2015.8.1 /sbin/init
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre>docker run -d --name pypi -h pypi.example.com  <span class="se">\</span>
+--privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro <span class="se">\</span>
+-p 127.0.0.1:7080:80 <span class="se">\</span>
+-v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tutorial/srv:/srv <span class="se">\</span>
+-v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/tutorial/glusterStor/pypi:/glusterStor <span class="se">\</span>
+pypeline:v15.10_2015.8.1 /sbin/init
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Spinning up these Docker instances may switch the host system to a different tty. Alt-F[89]...</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If rebuilding these docker instances, be sure to delete all .glusterfs and .trashcan directories first!
+docker kill pydocs jenkins pypi; docker rm pydocs jenkins pypi; sudo rm -rf tutorial/glusterStor/*/*</p>
+</div>
+</div>
+<div class="section" id="connecting-to-running-instances">
+<h3>Connecting to running instances<a class="headerlink" href="#connecting-to-running-instances" title="Permalink to this headline">¶</a></h3>
+<p>Attaching to running instances is simple and will be necessary to complete additional steps
+in this tutorial.</p>
+<div class="highlight-bash"><div class="highlight"><pre>docker <span class="nb">exec</span> -it jenkins /bin/bash
+docker <span class="nb">exec</span> -it pydocs /bin/bash
+docker <span class="nb">exec</span> -it pypi /bin/bash
+</pre></div>
+</div>
+</div>
+<div class="section" id="bring-up-the-glusterfs-slaves-first">
+<h3>Bring up the glusterfs slaves first<a class="headerlink" href="#bring-up-the-glusterfs-slaves-first" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash"><div class="highlight"><pre>root@pydocs# salt-call state.highstate
+root@pypi# salt-call state.highstate
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-jenkins-nginx-and-glusterfs-on-the-jenkins-instance">
+<h3>Install Jenkins, nginx and glusterfs on the jenkins instance<a class="headerlink" href="#install-jenkins-nginx-and-glusterfs-on-the-jenkins-instance" title="Permalink to this headline">¶</a></h3>
+<p>Some basic salt states are available to install gluster and get Jenkins running with an nginx reverse-proxy.</p>
+<div class="highlight-bash"><div class="highlight"><pre>root@jenkins:/# salt-call state.highstate
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The nginx configuration specifies a proxy_redirect directive.  Necessary for the test environment, but
+something to be removed most likely from a production configuration.  Also note that Jenkins will
+warn about an incorrect proxy configuration, but the environment is indeed functional.</p>
+</div>
+</div>
+<div class="section" id="install-the-gitlab-hook-plugin">
+<h3>Install the GitLab Hook Plugin<a class="headerlink" href="#install-the-gitlab-hook-plugin" title="Permalink to this headline">¶</a></h3>
+<p>This is a manual step.  Now that Jenkins is up and running, connect to <a class="reference external" href="https://localhost:5443/pluginManager/available">https://localhost:5443/pluginManager/available</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The proxy redirect only works for localhost, port 5443, within the nginx configuration for
+this tutorial.  127.0.0.1 will not work unless the configuration is further modified!</p>
+</div>
+<p>Use the filter option to pair down to just the gitlab-hook plugin.  Select the plugin and click
+the <em>Download now and Install after restart</em> button.  On the next screen select the option to
+restart Jenkins automatically.</p>
+<p>The Gitlab Hook plugin seems to have an issue with tag triggers.  This needs to be reported upstream,
+but for now, a workaround is to edit /var/lib/jenkins/plugins/gitlab-hook/WEB-INF/classes/models/values/project.rb.
+A simple example diff is as follows:</p>
+<div class="highlight-diff"><div class="highlight"><pre><span class="gd">--- project.rb.orig 2015-10-31 00:10:45.870662064 -0700</span>
+<span class="gi">+++ project.rb  2015-10-30 23:56:34.502059047 -0700</span>
+<span class="gu">@@ -150,6 +150,9 @@</span>
+     #
+     def matches_branch?(details, branch = false, exactly = false)
+       refspec = details.full_branch_reference
+<span class="gi">+      if refspec.include? &quot;tags&quot;</span>
+<span class="gi">+       return true</span>
+<span class="gi">+      end</span>
+       branch = details.branch unless branch
+       matched_refspecs = []
+       matched_branch = nil
+</pre></div>
+</div>
+<p>Apply the patch and restart the Jenkins service.</p>
+</div>
+<div class="section" id="configure-jenkins-authentication">
+<h3>Configure Jenkins Authentication<a class="headerlink" href="#configure-jenkins-authentication" title="Permalink to this headline">¶</a></h3>
+<p>One option is to use the built-in Jenkins user account management, but most users will
+prefer to authenticate with an Active Directory server, which is covered in this section.</p>
+<p>It is necessary to connect to an AD service where the server identity is verifiable.
+Export the organizational AD certificate in .CER format.  This is most easily
+accomplished using the <em>mmc</em> windows management tool.  Once exported, the certificate must
+be imported:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Place a copy of the certificate in /tmp and stop the jenkins service</span>
+
+<span class="c"># Use keytool, which will prompt to set a password</span>
+keytool -import -trustcacerts -alias ad1 -file /tmp/ad1_cert.crt
+
+<span class="c"># Also place a copy of the .crt file in /usr/local/share/ca-certificates (Ubuntu)</span>
+update-ca-certificates
+
+<span class="c"># Start the jenkins service</span>
+</pre></div>
+</div>
+<p>Next through the admin UI, confiture LDAP authentication</p>
+<ul class="simple">
+<li>Connect to <a class="reference external" href="https://localhost:5443/configureSecurity/">https://localhost:5443/configureSecurity/</a></li>
+<li>Select <em>Enable security</em></li>
+<li>Select <em>LDAP</em></li>
+<li>Specify the server url, for example: ldaps://ldap:636 (ldap+ssl)</li>
+<li>Select the <em>Advanced...</em> button</li>
+<li>Leave the root DN blank and select the <em>Allow blank rootDN</em> checkbox</li>
+<li>Choose the <em>User search base</em>, for example: OU=Departments,DC=example,DC=com</li>
+<li>Specify an LDAP filter (<em>User search filter</em>)to restrict group access, for example:
+(&amp;(sAMAccountName={0})(memberOf:1.2.840.113556.1.4.1941:=CN=Infrastructure_Team,OU=Groups,OU=IT,OU=Departments,DC=example,DC=com))</li>
+<li>Specify a <em>Group search base</em>, for example: OU=Departments,DC=example,DC=com</li>
+<li>Leave <em>Group search filter</em> and <em>Group membership</em> unspecified</li>
+<li>Specify a role account to connect to AD with (<em>Manager DN</em>), for example: CN=ldapuser,CN=Users,DC=example,DC=com</li>
+<li>Specify the <em>Manager Password</em></li>
+<li>Specify the <em>Display Name LDAP attribute</em>, e.g.: <strong>displayname</strong></li>
+<li>Specify the <em>Email Address LDAP attribute</em>, e.g.: <strong>mail</strong></li>
+<li>For Authorization, &#8220;Logged-in users can do anything&#8221; is a good starting place, but more granular options
+are available, such as matrix-based.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If authentication is ever to fail (e.g. for all users due to a configuration change),
+it is possible to recover.  First, stop the jenkins service.  After the jenkins service has
+stopped, it is possible to edit the configuration file directly:  /var/lib/jenkins/config.xml.
+If the ldap search filter is broken, it is possible to edit the userSearch value.  It is
+also possible to simply turn off authentication to have the option of fixing the
+configuration through the administration interface, set useSecurity to false.  After making
+changes to the jenkins xml configuration file, perform a jenkins service start.
+Note that as the configuation file is xml, the use of entities may be
+required, particularly in ldap search filters (e.g. &amp;amp).</p>
+</div>
+</div>
+<div class="section" id="manage-jenkins-credentials">
+<h3>Manage Jenkins Credentials<a class="headerlink" href="#manage-jenkins-credentials" title="Permalink to this headline">¶</a></h3>
+<p>A role account must exist on the GitLab server that has clone access for all repositories
+that are to be part of the pipeline.  Once this account exists in GitLab, connect to Jenkins
+to add a credential: <a class="reference external" href="https://localhost:5443/credential-store/domain/_/newCredentials">https://localhost:5443/credential-store/domain/_/newCredentials</a></p>
+<ul class="simple">
+<li>For <em>Kind</em>, select SSH Username with private key</li>
+<li>The <em>Scope</em> is to be Global</li>
+<li>Specify the <em>Username</em> for the account residing on the GitLab Server</li>
+<li>Provide the <em>Private Key</em>, such as by entering it directly</li>
+<li>Specify a <em>Passphrase</em> for the private key if applicable</li>
+<li>Enter a description if desired</li>
+<li>Click on the <em>Advanced...</em> button and specify the <em>ID</em> as &#8220;pypeline&#8221;, this is a critical step</li>
+<li>Click <em>OK</em> when complete</li>
+</ul>
+</div>
+<div class="section" id="create-a-gitlab-and-jenkins-build-projects">
+<h3>Create a GitLab and Jenkins Build Projects!<a class="headerlink" href="#create-a-gitlab-and-jenkins-build-projects" title="Permalink to this headline">¶</a></h3>
+<p>All of the plumbing is now in place and it&#8217;s time to work with the pypeline cli.  First, create a few
+environment variables to set useful defaults:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">PYPELINE_GITLAB_HOST</span><span class="o">=</span><span class="s2">&quot;gitlab.example.com&quot;</span>
+<span class="nb">export </span><span class="nv">PYPELINE_GITLAB_WEBHOOK_URL</span><span class="o">=</span><span class="s2">&quot;https://my_test_instance.example.com:3443/gitlab/build_now&quot;</span>
+<span class="nb">export </span><span class="nv">PYPELINE_JENKINS_HOST</span><span class="o">=</span><span class="s2">&quot;localhost:5443&quot;</span>
+<span class="nb">export </span><span class="nv">PYPELINE_EMAIL</span><span class="o">=</span><span class="s2">&quot;user@example.com&quot;</span>
+<span class="nb">export </span><span class="nv">PYPELINE_SSL_NO_VERIFY</span><span class="o">=</span><span class="s2">&quot;True&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Adding environment variables to an rc file and re-sourcing it is recommended.</p>
+</div>
+<p>If using buoyant/docker to step through this tutorial, the GitLab server will not be able to
+trigger builds, the docker instances will be listening on port 5443 of the loopback and therefore
+unreachable by remote hosts.  To test things out temporarily and assuming no firewall restrictions
+are in place, an ssh tunnel may be used to allow the webhook url used by GitLab to be functional.
+For example:</p>
+<div class="highlight-bash"><div class="highlight"><pre>ssh -g -L 3443:localhost:5443 -f -N user@localhost
+</pre></div>
+</div>
+<p>To more easily complete an end-to-end test, a vagrant environment is necessary.</p>
+<p>From the top-level pypeline repository directory and assuming a python virtual environment has
+been activated, install pypeline and create a first repository and build project:</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install .
+<span class="c"># Assuming there is an infrastructure namespace in GitLab and preferably with the environment variables set:</span>
+pypeline project create --project-name<span class="o">=</span>hello_world --scm-namespace<span class="o">=</span>infrastructure --description<span class="o">=</span><span class="s2">&quot;hello world pypeline project&quot;</span> --build-project-name<span class="o">=</span>hello_world
+</pre></div>
+</div>
+<p><em>Python packages must meet a few requirements:</em></p>
+<ul class="simple">
+<li>&lt;package&gt;.__version__ must be available, with a format of &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;. With nothing
+installed, python setup.py &#8211;version must return the version</li>
+<li>Packages must have a setup.py</li>
+<li>sphinx must be installed in the virtual environment, if documentation is to be generated (handled by default)</li>
+</ul>
+</div>
+<div class="section" id="jenkins-build-project-overview">
+<h3>Jenkins Build Project Overview<a class="headerlink" href="#jenkins-build-project-overview" title="Permalink to this headline">¶</a></h3>
+<p>When a Jenkins build is triggered, sphinx documentation is generated (if applicable) and
+an artifact is created (if applicable).  Documentation and artifacts are automatically
+deployed with the glusterfs setup.</p>
+<p>The provided SaltStack states include a Jenkins workstation bootstrap script, as well as an
+SConstruct file.  The Sconstruct file does a few things:</p>
+<ul class="simple">
+<li>Runs unit tests, if any</li>
+<li>Installs the package into a virtual environment</li>
+<li>Builds sphinx documentation, if a docs/Makefile exists</li>
+<li>Runs a setup.py clean</li>
+<li>Creates a pip-installable tarball</li>
+<li>Installs documentation to a target directory</li>
+<li>Installs the pip-installable tarball to a target directory</li>
+</ul>
+<p>Any failure of a step in the default SConstruct file will return a non-zero
+error code to the caller.</p>
+</div>
+<div class="section" id="what-s-next">
+<h3>What&#8217;s Next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h3>
+<p>This tutorial covers the Jenkins and glusterfs geo-replication configuration.  It does not
+currently bundle a web-app to index the sphinx documentation, nor do the salt states
+bring up a local pypi server at present.  These will be the next set of components
+to bring up to complete the pipeline.</p>
+<p>Once the pipeline is fully functional, creating a .pip/pip.conf file is recommended, for example:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="o">[</span>global<span class="o">]</span>
+<span class="nv">timeout</span> <span class="o">=</span> 30
+index-url <span class="o">=</span> https://pypi.example.com/simple
+trusted-host <span class="o">=</span> pypi.example.com
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api_reference.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="getting_started.html" class="btn btn-neutral" title="Getting Started" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, zulily, llc.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
